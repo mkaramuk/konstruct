@@ -2,8 +2,8 @@
 resource "local_file" "ansible_inventory" {
   content = templatefile("./templates/inventory", {
     master_ip  = google_compute_instance.master.network_interface.0.access_config.0.nat_ip
-    worker1_ip = google_compute_instance.worker1.network_interface.0.access_config.0.nat_ip
-    worker2_ip = google_compute_instance.worker2.network_interface.0.access_config.0.nat_ip
+    worker1_ip = google_compute_instance.worker.0.network_interface.0.access_config.0.nat_ip
+    worker2_ip = google_compute_instance.worker.1.network_interface.0.access_config.0.nat_ip
   })
   filename = "../ansible/inventory"
 }
