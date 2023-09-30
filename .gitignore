@@ -41,3 +41,8 @@ terraform.rc
 NOTES.md
 
 authentication/ssh_keys/**
+scripts/*.sh
+k8s/config
+
+ansible/inventory.ini
+ansible/ansible.cfg

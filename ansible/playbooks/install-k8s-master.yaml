@@ -1,0 +1,29 @@
+---
+- name: Install Kubernetes toolchain to master
+  hosts: master
+  become: True
+  tasks:
+      - name: Install Kubernetes toolchain
+        ansible.builtin.apt:
+            update_cache: True
+            name:
+                - kubeadm
+                - kubelet
+                - kubectl
+            state: present
+      - name: Copy init script
+        copy:
+            src: ../../scripts/kinit.sh
+            dest: /kinit.sh
+      - name: Run init script
+        shell: bash /kinit.sh
+      - name: Fetch join script
+        fetch:
+            src: /worker-join.sh
+            dest: ../../scripts/worker-join.sh
+            flat: True
+      - name: Fetch kubeconfig
+        fetch:
+            src: /etc/kubernetes/admin.conf
+            dest: ../../k8s/config
+            flat: True

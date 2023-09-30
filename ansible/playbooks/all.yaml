@@ -1,0 +1,6 @@
+---
+- import_playbook: configure-nodes.yaml
+- import_playbook: install-containerd.yaml
+- import_playbook: add-k8s-repos.yaml
+- import_playbook: install-k8s-master.yaml
+- import_playbook: install-k8s-worker.yaml

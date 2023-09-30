@@ -1,6 +1,6 @@
 resource "google_compute_instance" "master" {
   name         = "konstruct-master"
-  machine_type = "e2-micro"
+  machine_type = "e2-small"
   tags         = ["konstruct-vm"]
   zone         = var.zone
 
@@ -24,7 +24,7 @@ resource "google_compute_instance" "master" {
 resource "google_compute_instance" "worker" {
   count        = 2
   name         = "konstruct-worker${count.index + 1}"
-  machine_type = "e2-micro"
+  machine_type = "e2-small"
   tags         = ["konstruct-vm"]
   zone         = var.zone
 

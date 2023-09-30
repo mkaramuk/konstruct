@@ -1,0 +1,44 @@
+---
+- name: Install containerd as container runtime
+  hosts: all
+  become: True
+  tasks:
+      - name: Install necessary packages
+        ansible.builtin.apt:
+            update_cache: True
+            name:
+                - ca-certificates
+                - curl
+                - gnupg
+            state: present
+
+      - name: Add Docker GPG apt Key
+        apt_key:
+            url: https://download.docker.com/linux/debian/gpg
+            state: present
+
+      - name: Add Docker Repository
+        apt_repository:
+            repo: deb https://download.docker.com/linux/debian bookworm stable
+            state: present
+
+      - name: Install containerd
+        ansible.builtin.apt:
+            update_cache: True
+            name:
+                - containerd.io
+            state: present
+
+      - name: Generate default containerd config
+        shell: containerd config default > /etc/containerd/config.toml
+
+      - name: Enable SystemdCgroup
+        replace:
+            path: /etc/containerd/config.toml
+            regexp: 'SystemdCgroup \= false'
+            replace: "SystemdCgroup = true"
+
+      - name: Restart containerd to provide new configuration
+        ansible.builtin.systemd:
+            name: containerd
+            state: restarted

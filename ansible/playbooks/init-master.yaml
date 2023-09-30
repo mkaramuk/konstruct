@@ -1,0 +1,12 @@
+---
+- name: Initialize the master node
+  hosts: master
+  become: True
+  tasks:
+      - name: Run kubeadm init
+        shell: kubeadm init
+      - name: Get kubeconfig file
+        fetch:
+            src: /etc/kubernetes/admin.conf
+            dest: ../../k8s/kubeconfig.yml
+            flat: True
