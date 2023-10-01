@@ -2,7 +2,7 @@
 resource "local_file" "ansible_inventory" {
   content = templatefile("./templates/inventory.ini", {
     worker_ip_addrs = google_compute_instance.worker[*].network_interface.0.access_config.0.nat_ip
-    master_ip       = google_compute_instance.master.network_interface.0.access_config.0.nat_ip
+    master_ip       = google_compute_address.master_external_ip.address
   })
   filename = "../ansible/inventory.ini"
 }
@@ -23,7 +23,7 @@ resource "local_file" "public_key" {
 # kubeadm init script
 resource "local_file" "reassign-ip" {
   content = templatefile("./templates/kinit.sh", {
-    master_external_ip = google_compute_instance.master.network_interface.0.access_config.0.nat_ip
+    master_external_ip = google_compute_address.master_external_ip.address
   })
   filename = "../scripts/kinit.sh"
 }

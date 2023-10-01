@@ -7,10 +7,7 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-# Find the IP address of the interface other than loopback.
-ip_address=$(ifconfig | grep -oP 'inet (?!127\.0\.0\.1)\K[\d.]+')
-
-kubeadm init --pod-network-cidr $ip_address/16 --control-plane-endpoint ${master_external_ip}
+kubeadm init --pod-network-cidr 10.244.0.0/16 --control-plane-endpoint ${master_external_ip}
 
 echo "#!/bin/bash
 " > /worker-join.sh

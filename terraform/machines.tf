@@ -1,7 +1,7 @@
 resource "google_compute_instance" "master" {
   name         = "konstruct-master"
   machine_type = "e2-small"
-  tags         = ["konstruct-vm"]
+  tags         = ["konstruct-vm", "konstruct-vm-master"]
   zone         = var.zone
 
   metadata = {
@@ -16,7 +16,7 @@ resource "google_compute_instance" "master" {
   network_interface {
     subnetwork = google_compute_subnetwork.subnet.id
     access_config {
-      # Existince of this block provides an external IP to the VM
+      nat_ip = google_compute_address.master_external_ip.address
     }
   }
 }

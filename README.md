@@ -53,6 +53,12 @@ If you want more details, you can pass `-v` argument.
 
 After Ansible complete, your kubeconfig file will be at `k8s/config`.
 
+Your cluster does not have a CNI. You must install a CNI plugin before proceeding. If you don't know which plugin to choose, you can use Calico:
+
+```shell
+kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/calico.yaml
+```
+
 ## Destroy
 
 Run the command below at `terraform` directory to destroy the cluster:
@@ -63,7 +69,14 @@ terraform destroy
 
 ## Notes
 
-Even though we provisioned a Kubernetes cluster, they are still compute engine instances. So, if you want to expose services from the cluster, you might need to set firewall rules for it.
+Even though we provisioned a Kubernetes cluster, they are still compute engine instances. So, if you want to expose services from the cluster, you might need to set firewall rules for them.
+
+## TODO List
+
+-   [ ] Firewall rules must be edited to internal network.
+-   [ ] Worker node count could be change by variables.
+-   [ ] POD CIDR network must be specify by a variable.
+-   [ ] High available cluster.
 
 ## Contribute
 
